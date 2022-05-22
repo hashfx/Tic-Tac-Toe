@@ -25,7 +25,7 @@ def winner(b, l):
             (b[0][2] == l and b[1][1] == l and b[2][0] == l))
 
 
-# Configure text on button while playing with another player
+# Configure text on button while playing with another player todo multiplayer
 def get_text(i, j, gb, l1, l2):
     global sign
     if board[i][j] == ' ':
@@ -38,7 +38,7 @@ def get_text(i, j, gb, l1, l2):
             l1.config(state=ACTIVE)
             board[i][j] = "O"
         sign += 1
-        button[i][j].config(text=board[i][j], font="Helvetica 12 bold")  # fixme size of box increases when clicked
+        button[i][j].config(text=board[i][j])
     if winner(board, "X"):
         box = messagebox.showinfo("Winner", "Player 1 won the match")
         gb.destroy()
@@ -52,9 +52,8 @@ def get_text(i, j, gb, l1, l2):
         gb.destroy()
         play()
 
-    # Check if the player can push the button or not
 
-
+# Check if the player can push the button or not
 def isfree(i, j):
     return board[i][j] == " "
 
@@ -81,7 +80,7 @@ def gameboard_pl(game_board, l1, l2):
             button[i].append(j)
             get_t = partial(get_text, i, j, game_board, l1, l2)
             button[i][j] = Button(
-                game_board, bd=5, command=get_t, height=4, width=8, bg='lightblue', font="Helvetica 12 bold")
+                game_board, bd=5, command=get_t, height=4, width=8, bg='#5167cf', activebackground="#95a7fc", font="Helvetica 12 bold")
             button[i][j].grid(row=m, column=n)
 
     game_board.mainloop()
@@ -120,7 +119,7 @@ def pc():
             return edge[move]
 
 
-# Configure text on button while playing with system
+# Configure text on button while playing with system todo computer
 def get_text_pc(i, j, gb, l1, l2):
     global sign
     if board[i][j] == ' ':
@@ -156,7 +155,6 @@ def get_text_pc(i, j, gb, l1, l2):
 
 
 # Create the GUI of game board for play along with system
-
 def gameboard_pc(game_board, l1, l2):
     global button
     button = []
@@ -169,7 +167,7 @@ def gameboard_pc(game_board, l1, l2):
             button[i].append(j)
             get_t = partial(get_text_pc, i, j, game_board, l1, l2)
             button[i][j] = Button(
-                game_board, bd=5, command=get_t, height=4, width=8, bg='#1b878f',  activebackground="#40dae6", font="Helvetica 12")
+                game_board, bd=5, command=get_t, height=4, width=8, bg='#1b878f',  activebackground="#40dae6", font="Helvetica 12 bold")
             button[i][j].grid(row=m, column=n)
     game_board.mainloop()
 
