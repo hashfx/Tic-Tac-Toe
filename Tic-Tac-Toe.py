@@ -13,8 +13,7 @@ global board
 board = [[" " for x in range(3)] for y in range(3)]
 
 
-# Check l(O/X) won the match or not
-# according to the rules of the game
+# Check (O/X) won the match or not
 def winner(b, l):
     return ((b[0][0] == l and b[0][1] == l and b[0][2] == l) or
             (b[1][0] == l and b[1][1] == l and b[1][2] == l) or
@@ -39,16 +38,19 @@ def get_text(i, j, gb, l1, l2):
             l1.config(state=ACTIVE)
             board[i][j] = "O"
         sign += 1
-        button[i][j].config(text=board[i][j])
+        button[i][j].config(text=board[i][j], font="Helvetica 12 bold")  # fixme size of box increases when clicked
     if winner(board, "X"):
         box = messagebox.showinfo("Winner", "Player 1 won the match")
         gb.destroy()
+        play()
     elif winner(board, "O"):
         box = messagebox.showinfo("Winner", "Player 2 won the match")
         gb.destroy()
+        play()
     elif (isfull()):
         box = messagebox.showinfo("Game Tie!", "Game Tie!")
         gb.destroy()
+        play()
 
     # Check if the player can push the button or not
 
@@ -79,7 +81,7 @@ def gameboard_pl(game_board, l1, l2):
             button[i].append(j)
             get_t = partial(get_text, i, j, game_board, l1, l2)
             button[i][j] = Button(
-                game_board, bd=5, command=get_t, height=4, width=8, bg='lightblue')
+                game_board, bd=5, command=get_t, height=4, width=8, bg='lightblue', font="Helvetica 12 bold")
             button[i][j].grid(row=m, column=n)
 
     game_board.mainloop()
@@ -117,9 +119,8 @@ def pc():
             move = random.randint(0, len(edge) - 1)
             return edge[move]
 
-        # Configure text on button while playing with system
 
-
+# Configure text on button while playing with system
 def get_text_pc(i, j, gb, l1, l2):
     global sign
     if board[i][j] == ' ':
@@ -168,7 +169,7 @@ def gameboard_pc(game_board, l1, l2):
             button[i].append(j)
             get_t = partial(get_text_pc, i, j, game_board, l1, l2)
             button[i][j] = Button(
-                game_board, bd=5, command=get_t, height=4, width=8, bg='blueviolet')
+                game_board, bd=5, command=get_t, height=4, width=8, bg='#1b878f',  activebackground="#40dae6", font="Helvetica 12")
             button[i][j].grid(row=m, column=n)
     game_board.mainloop()
 
@@ -178,10 +179,12 @@ def withpc(game_board):
     game_board.destroy()
     game_board = Tk()
     game_board.title("Tic Tac Toe")
-    l1 = Button(game_board, text="Player : X", width=10)
+    game_board.eval('tk::PlaceWindow . center')
+    game_board.resizable(0,0)
+    l1 = Label(game_board, text="Player : X", width=10, activebackground="yellow", font="Helvetica 12", relief="raised")
     l1.grid(row=1, column=1)
-    l2 = Button(game_board, text="Computer : O",
-                width=10, state=DISABLED)
+    l2 = Label(game_board, text="Computer : O",
+                width=10, activebackground="yellow", font="Helvetica 12", relief="raised", state=DISABLED)
 
     l2.grid(row=2, column=1)
     gameboard_pc(game_board, l1, l2)
@@ -192,6 +195,8 @@ def withplayer(game_board):
     game_board.destroy()
     game_board = Tk()
     game_board.title("Tic Tac Toe")
+    game_board.eval('tk::PlaceWindow . center')
+    game_board.resizable(0,0)
     l1 = Label(game_board, text="Player 1 : X", width=10, activebackground="yellow", font="Helvetica 12", relief="raised")
 
     l1.grid(row=1, column=1)
